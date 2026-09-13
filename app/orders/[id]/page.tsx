@@ -91,10 +91,10 @@ export default function OrderTrackerPage({ params }: { params: Promise<{ id: str
     return () => clearTimeout(timer);
   }, [order]);
 
-  if (loading) return <div className="p-8 text-center font-bold">Loading order details...</div>;
+  if (loading) return <div className="p-8 text-center font-bold text-gray-900">Loading order details...</div>;
   if (!order) {
     return (
-      <div className="p-8 text-center space-y-4">
+      <div className="p-8 text-center space-y-4 text-gray-900">
         <p className="text-red-600 font-bold">Order not found.</p>
         <button
           onClick={() => router.push('/')}
@@ -109,14 +109,14 @@ export default function OrderTrackerPage({ params }: { params: Promise<{ id: str
   const currentStageIndex = STAGES.indexOf(order.status);
 
   return (
-    <main className="max-w-xl mx-auto p-6 mt-10 border rounded-lg shadow-md bg-white">
+    <main className="max-w-xl mx-auto p-6 mt-10 border rounded-lg shadow-md bg-white text-gray-900">
       {/* Header Navigation */}
       <div className="flex justify-between items-center border-b pb-4 mb-6">
         <div>
           <span className="text-xs font-semibold bg-green-100 text-green-800 px-2.5 py-1 rounded-full">
             Order Tracker
           </span>
-          <h1 className="text-2xl font-bold mt-2">Thanks, {order.customer_name}!</h1>
+          <h1 className="text-2xl font-bold mt-2 text-gray-900">Thanks, {order.customer_name}!</h1>
         </div>
         <button
           onClick={() => router.push('/')}
@@ -128,7 +128,7 @@ export default function OrderTrackerPage({ params }: { params: Promise<{ id: str
 
       <div className="text-sm space-y-1 mb-6">
         <p className="text-gray-500">Order ID: {order.id}</p>
-        <p className="font-semibold text-base">Total: ${order.total_amount.toFixed(2)}</p>
+        <p className="font-semibold text-base text-gray-900">Total: ${order.total_amount.toFixed(2)}</p>
       </div>
 
       {/* Progress Bar UI */}
@@ -153,7 +153,8 @@ export default function OrderTrackerPage({ params }: { params: Promise<{ id: str
                     isCurrent ? 'font-bold text-green-700' : isCompleted ? 'text-gray-900' : 'text-gray-400'
                   }`}
                 >
-                  {stage} {isCurrent && '⏳ (In Progress)'}
+                  {stage} {isCurrent && order.status !== 'Delivered' && '⏳ (In Progress)'}
+                  {isCurrent && order.status === 'Delivered' && ' ✅'}
                 </span>
               </div>
             );

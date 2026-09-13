@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 Instacart Clone
 
-## Getting Started
+A full-stack grocery shopping and real-time order tracking application built with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, and **Supabase**. 
 
-First, run the development server:
+This project demonstrates core backend integration, real-time database synchronization, custom state management for cart management, and dynamic routing in a modern web app.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🚀 Live Demo
+
+- **Live URL:** https://instacart-clone-chi.vercel.app
+
+---
+
+## ✨ Features
+
+- **Storefront & Product Catalog:** Browse available grocery items pulled dynamically from the database.
+- **Cart Management:** Custom React hook (`useCart.ts`) handling cart operations (add/remove items, quantity adjustments, live total calculation).
+- **Checkout Flow:** Interactive checkout interface processing order details into Supabase database tables.
+- **Real-Time Order Tracking (`/orders/[id]`):** Live order status updates using **Supabase Realtime subscriptions** (`Pending` ➔ `Shopping` ➔ `Out for Delivery` ➔ `Delivered`).
+- **Admin Dashboard (`/admin`):** Interface to view orders and trigger real-time status updates across clients.
+- **Responsive UI:** Clean, modern interface designed with Tailwind CSS.
+
+---
+
+## 🛠️ Tech Stack & Key Libraries
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router, Server & Client Components)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Backend & Database:** [Supabase](https://supabase.com/) (PostgreSQL + Realtime Subscriptions)
+- **Hosting:** [Vercel](https://vercel.com/)
+
+---
+
+## 📁 Key Project Structure
+
+```text
+instacart-clone/
+├── app/
+│   ├── admin/             # Admin dashboard for updating order statuses
+│   ├── checkout/          # Checkout page & form handling
+│   ├── orders/
+│   │   └── [id]/          # Real-time order tracker dynamic route
+│   ├── globals.css        # Global CSS & Tailwind imports
+│   ├── layout.tsx         # Root layout structure
+│   └── page.tsx           # Storefront home page
+├── lib/
+│   ├── supabase.ts        # Supabase Client initialization
+│   └── useCart.ts         # Custom state hook for shopping cart logic
+└── public/                # Static assets & favicon
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Environment Variables & Local Setup
+### 1. Prerequisites
+Ensure you have Node.js (v18+) and npm installed on your system.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. Clone the Repository
+```bash
+git clone https://github.com/skup13/instacart-clone.git
+cd instacart-clone
+```
 
-## Learn More
+### 3. Install Dependencies
+```bash
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Configure Environment Variables
+Create a `.env.local` file in the root directory and add your Supabase credentials:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 5. Run Development Server
+```bash
+npm run dev
+```
+Open http://localhost:3000 in your browser to view the app locally.
 
-## Deploy on Vercel
+## 🔑 Key Engineering & Technical Highlights
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Supabase Realtime Channel:** Subscribes to PostgreSQL UPDATE events on the orders table using Supabase Realtime so status changes reflect immediately on the client without manual page refreshes.
+2. **Custom Hook Architecture:** Separated cart domain logic into useCart.ts to keep page components lightweight, readable, and focused strictly on UI rendering.
+3. **Dynamic App Routing:** Utilizes Next.js App Router dynamic parameter resolution ([id]) and UUID validation to safely fetch specific orders.
